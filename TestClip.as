@@ -6,7 +6,7 @@
 	
 	public class TestClip extends MovieClip {
 		
-		var runSpeed = 12;
+		public var runSpeed = 12;
 		//Keys Down/Up
 		public var direction = 1;
 		public var up:Boolean;
@@ -47,10 +47,10 @@
 		public function move(){
 			
 			if(right ){
-				run("left");
+				run("right");
 			}
 			if(left){
-				run("right");
+				run("left");
 			}
 			if(up){
 				run("up");
@@ -69,7 +69,7 @@
 		
 		public function onKeyDown(key:String):void
 		{
-			
+			trace(key);
 			switch(key)
 			{
 				
@@ -180,19 +180,21 @@
 		
 		public function run(direction){
 			var count = 0;
+
 			while((count < runSpeed))
+			{
 				updateCollisions();
-			
+				
 				switch(direction){
 					case "left":
-						if(cML || cTL || (this.x <= 0))
+						if(cML || (this.x <= 0))
 						{
 							return;
 						}
 						this.x --;
 						break;
 					case "right":
-						if(cMR || cTR || (this.x >= C.STAGE_WIDTH))
+						if(cMR || (this.x >= C.STAGE_WIDTH))
 						{
 							return;
 						}
@@ -214,6 +216,9 @@
 						break;
 						
 				}
+				count++;
+			}
+				
 		}
 	}
 	
