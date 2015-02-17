@@ -85,8 +85,8 @@
 				
 				//Remove all points from display
 				if(!firstRun){
-					for(var i:uint=0; i<pointDisplay.length;i++){
-						subject.parent.removeChild(pointDisplay[i]);
+					for(var ii:uint=0; i<pointDisplay.length;ii++){
+						subject.parent.removeChild(pointDisplay[ii]);
 					}
 				}
 				else{
