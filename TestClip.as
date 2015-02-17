@@ -100,8 +100,9 @@
 		
 		public function onKeyUp(key:String):void
 		{
+			trace("up key: " +key);
 			switch(key)
-			{
+			{	
 				case keyRight:
 					right = false
 					break;
@@ -187,28 +188,28 @@
 				
 				switch(direction){
 					case "left":
-						if(cML || (this.x <= 0))
+						if(cML || (cBL && !cMB) ||(this.x <= 0))
 						{
 							return;
 						}
 						this.x --;
 						break;
 					case "right":
-						if(cMR || (this.x >= C.STAGE_WIDTH))
+						if(cMR || (cBR && !cMB) ||(this.x >= C.STAGE_WIDTH))
 						{
 							return;
 						}
 						this.x ++;
 						break;
 					case "up":
-						if(cMT || cTR || cTL || (this.y <= 0))
+						if(cMT || (cTL && !cML) || (cTR && !cMR) || (this.y <= 0))
 						{
 							return;
 						}
 						this.y --;
 						break;
 					case "down":
-						if(cMB || cBL || cBR || (this.y >= C.STAGE_HEIGHT))
+						if(cMB || (cBL && !cML) || (cBR && !cMR) || (this.y >= C.STAGE_HEIGHT))
 						{
 							return;
 						}

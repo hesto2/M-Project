@@ -46,17 +46,17 @@
 			pointList = new Array();
 
 			//Calculate the locations and add them to the array
-			cornerBL = new Point(subject.x,subject.y);
+			cornerBL = new Point(subject.x+5,subject.y);
 			pointList.push(cornerBL);
 			cornerBR = new Point(subject.x+subject.width,subject.y);
 			pointList.push(cornerBR);
 			cornerTR = new Point(subject.x+subject.width,subject.y-subject.height);
 			pointList.push(cornerTR);
-			cornerTL = new Point(subject.x,subject.y-subject.height);
+			cornerTL = new Point(subject.x+5,subject.y-subject.height);
 			pointList.push(cornerTL);
 			middleT = new Point(subject.x+(.5*subject.height),subject.y-subject.height);
 			pointList.push(middleT);
-			middleL = new Point(subject.x, subject.y-(.5*subject.height));
+			middleL = new Point(subject.x+5, subject.y-(.5*subject.height));
 			pointList.push(middleL);
 			middleB = new Point(subject.x+(.5*subject.width),subject.y);
 			pointList.push(middleB);
