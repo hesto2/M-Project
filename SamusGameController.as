@@ -87,7 +87,9 @@ package
 			}
 			else if(key == "[")
 			{
+
 				trace("debugging");
+				
 			}
 			
 			player1.onKeyDown(key);
@@ -96,6 +98,7 @@ package
 		private function reportKeyUp(event:KeyboardEvent)
 		{
 			var key = String.fromCharCode(event.charCode);
+			key = key.toLowerCase();
 			player1.onKeyUp(key);
 			
 		}

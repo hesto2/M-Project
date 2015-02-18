@@ -38,6 +38,9 @@
 		private var cML:Boolean;
 		private var cMB:Boolean;
 		
+		//Cooldown
+		protected var jumpCooldown = 2;
+		protected var currentJumpCooldown = 0;
 		//States
 		private var running:Boolean = true;
 		private var jumping:Boolean;
@@ -71,11 +74,16 @@
 			{
 				onGround();
 			}
-			if(jumping || falling){
+			if(jumping){
+				
 				jump();
-				//jumpMoveX();
+					//jumpMoveX();
+				
 			}
-			trace(running);
+			if(currentJumpCooldown > 0)
+			{
+				currentJumpCooldown--;
+			}
 		}
 		
 		
@@ -85,7 +93,7 @@
 		
 		public function onKeyDown(key:String):void
 		{
-			trace(key);
+			
 			switch(key)
 			{
 				
@@ -116,7 +124,7 @@
 		
 		public function onKeyUp(key:String):void
 		{
-			trace("up key: " +key);
+			
 			switch(key)
 			{	
 				case keyRight:
@@ -193,12 +201,13 @@
 						break;
 				}
 			}
-			if(cMB && !jumping){
-				falling = true;
+			if(!cMB && !jumping){
+				fall();
+				fall();
+				fall();
 			}
-			else{
-				falling = false;
-			}
+			
+			
 		}
 		public function onGround(){
 			if(right ){
@@ -252,8 +261,6 @@
 					case "down":
 						if(cMB || (cBL && !cML) || (cBR && !cMR) || (this.y >= C.STAGE_HEIGHT))
 						{
-							falling = false;
-							running = true;
 							return;
 						}
 						//this.y++;
@@ -266,9 +273,12 @@
 		}
 		function jump():void
 		{
-			
+			if(currentJumpCooldown >0)
+			{
+				return;
+			}
 			//if main isn't already jumping
-			if(!jumping && !falling)
+			if(!jumping)
 			{
 				jumpDirection = direction;
 				if(jumpDirection == 0)
@@ -276,7 +286,13 @@
 				//then start jumping
 				jumping = true;
 				jumpSpeed = jumpSpeedLimit*-1;
-				this.y += jumpSpeed;
+				var i = 0;
+				while(!cMT && /*!cTL  && !cTR &&*/ i > jumpSpeed)
+				{
+					updateCollisions();
+					this.y-=1;
+					i--;
+				}
 				
 				/*
 				//Animation
@@ -314,7 +330,7 @@
 					{
 						jumpSpeed *= -1;
 					}
-					var i = 0;
+					i = 0;
 					while(!cMT && !cTL && !cTR && i > jumpSpeed)
 					{
 						updateCollisions();
@@ -336,32 +352,18 @@
 					this.gotoAndPlay("leftJumpIdle");
 					}*/
 					var jCount = 0;
-				while(!cMB && !cBR && ! cBL && ( jCount < jumpSpeed))
-				{
-					updateCollisions();
-					this.y += 1;
-					jCount++;
-				}
+					while(!cMB && ( jCount < jumpSpeed))
+					{
+						updateCollisions();
+						this.y += 1;
+						jCount++;
+					}
 					
 				}
-				
-				/*
-				if(bottomBumping)
-				{
-					var count = 0;
-					do
-					{
-						this.y -= 1;
-						count++;
-						trace("Y pos: " + this.y);
-						runCollisionCheck();
-					}while(bottomBumping && count < 10);
-					this.y++;
-				}*/
+
 				
 				//if main hits the floor, then stop jumping
-
-				if(cMB||cBL||cBR)
+				if(cMB)
 					{
 						/*
 						if(jumpDirection == 1){
@@ -370,6 +372,7 @@
 						else if(jumpDirection ==-1){
 							this.gotoAndPlay("leftGroundLand");
 						}*/
+					currentJumpCooldown = jumpCooldown;
 					jumping = false;
 					falling = false;
 					running = true;
@@ -377,6 +380,11 @@
 					trace("jumping function end");
 				}
 			}
+		}
+		public function fall(){
+			jumping = true;
+			falling = true;
+			jumpSpeed = 1;
 		}
 	}
 	
