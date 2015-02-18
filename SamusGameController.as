@@ -6,13 +6,15 @@ package
 	import flash.geom.*;
 	import flash.text.*;
 	import Game.*;
+	import Assets.Environment.*
+	
 	
 	public class SamusGameController extends MovieClip
 	{
 		public var player1:TestClip;
 		public var level;
-		
-		
+		private var environmentArray:Array;
+		private var playerArray:Array;
 
 		
 		public function GameController()
@@ -22,16 +24,17 @@ package
 		
 		public function startGame()
 		{
+			
 			//Define Constants
 			C.STAGE_WIDTH = mcGameStage.width;
 			C.STAGE_HEIGHT = mcGameStage.height;
+			
+			initializeEnvironment();
 			C.LEVEL = mcBackground;
 			
-			player1 = new TestClip();
-			player1.x = player1.width;
-			player1.y = C.STAGE_HEIGHT - (2*player1.height);
-			mcGameStage.addChild(player1);
-		
+			
+			initializePlayers();
+			
 			
 			//player.gotoAndPlay("runRight");
 			mcGameStage.addEventListener(Event.ENTER_FRAME,update);
@@ -56,16 +59,18 @@ package
 			/********************
 			  Handle User Input
 			********************/
-			player1.move();
-			/*
-			xPos.text = String(player1.currentShootWait);
-			yPos.text = String(player1.y);
-			jumpSpeed.text = String(player1.jumpSpeed);
-			*/
+			
+			for(var i:int = 0;i<playerArray.length;i++)
+			{
+				playerArray[i].move();
+			}
 			/********************
 			 Handle Game Logic
 			********************/
-			
+			for(var i:int = 0;i<environmentArray.length;i++)
+			{
+				environmentArray[i].move();
+			}
 			
 			
 			
@@ -103,6 +108,27 @@ package
 			
 		}
 		
+		//INITIALIZE ELEMENTS
+		private function initializeEnvironment(){
+			environmentArray = new Array();
+			
+			var platform1 = new xPlatform(20,30,1,0);
+			platform1.y -= 100;
+			mcBackground.addChild(platform1);
+			
+			environmentArray.push(platform1);
+			
+		}
+		private function initializePlayers(){
+			playerArray = new Array();
+			player1 = new TestClip();
+			player1.x = player1.width;
+			player1.y = C.STAGE_HEIGHT - (2*player1.height);
+			mcGameStage.addChild(player1);
+			
+			playerArray.push(player1);
+			
+		}
 		
 	}
 }
