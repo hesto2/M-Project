@@ -11,7 +11,7 @@ package
 	
 	public class SamusGameController extends MovieClip
 	{
-		public var player1:TestClip;
+		public var player1:Character;
 		public var level;
 		private var environmentArray:Array;
 		private var playerArray:Array;
@@ -28,12 +28,13 @@ package
 			//Define Constants
 			C.STAGE_WIDTH = mcGameStage.width;
 			C.STAGE_HEIGHT = mcGameStage.height;
+			initializePlayers();
+			C.STAGE = mcGameStage;
 			
 			initializeEnvironment();
+			C.PLAYERS = playerArray;
 			C.LEVEL = mcBackground;
 			
-			
-			initializePlayers();
 			
 			
 			//player.gotoAndPlay("runRight");
@@ -112,7 +113,7 @@ package
 		private function initializeEnvironment(){
 			environmentArray = new Array();
 			
-			var platform1 = new xPlatform(20,30,1,0);
+			var platform1 = new xPlatform(0,30,1,0);
 			platform1.y -= 100;
 			mcBackground.addChild(platform1);
 			
@@ -121,7 +122,7 @@ package
 		}
 		private function initializePlayers(){
 			playerArray = new Array();
-			player1 = new TestClip();
+			player1 = new Character();
 			player1.x = player1.width;
 			player1.y = C.STAGE_HEIGHT - (2*player1.height);
 			mcGameStage.addChild(player1);

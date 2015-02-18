@@ -1,7 +1,7 @@
 ﻿package Assets.Environment {
 	
 	import flash.display.MovieClip;
-	
+	import Game.C;
 	
 	public class xPlatform extends MovieClip {
 		
@@ -10,6 +10,7 @@
 		private var direction:int;
 		private var orientation:int;
 		private var distance:int;
+
 		
 		public function xPlatform(speed:int, distance:int,startDirection:int,orientation:int) {
 			// constructor code
@@ -20,6 +21,7 @@
 		}
 		public function move()
 		{	
+			
 			
 			switch(orientation)
 			{

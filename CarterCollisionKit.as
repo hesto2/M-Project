@@ -30,19 +30,24 @@
 		private var pointDisplay:Array;
 		private var firstRun = true;
 		private var hitList:Array;
+		private var hitObjects:Array;
 		private var pointOrder:Array = new Array("BL","BR","TR","TL","MT","ML","MB","MR");
 		
-		public function CarterCollisionKit(subject:Object,obstacles:Array,debug:Boolean) 
+		public function CarterCollisionKit() 
 		{
-			this.subject = subject;
-			this.debug = debug;
-			this.obstacleList = obstacles;
+			
 		}
 
 		
-		public function checkCollision()
+		public function checkCollision(subject:Object,obstacles,debug:Boolean)
 		{	
+			this.subject = subject;
+			this.debug = debug;
+			this.obstacleList = getChildrenOf(obstacles);
+			
+			
 			hitList = new Array();
+			hitObjects = new Array();
 			pointList = new Array();
 
 			//Calculate the locations and add them to the array
@@ -54,7 +59,7 @@
 			pointList.push(cornerTR);
 			cornerTL = new Point(subject.x,subject.y-subject.height);
 			pointList.push(cornerTL);
-			middleT = new Point(subject.x+(.5*subject.height),subject.y-subject.height);
+			middleT = new Point(subject.x+(.5*subject.width),subject.y-subject.height);
 			pointList.push(middleT);
 			middleL = new Point(subject.x, subject.y-(.5*subject.height));
 			pointList.push(middleL);
@@ -71,7 +76,10 @@
 					for(var ii:uint=0; ii<pointList.length;ii++){
 						var hitTest = testHit(obstacleList[i],pointList[ii]);
 						if(hitTest){
+								trace(subject + " " + obstacleList[i]);
 								hitList.push(ii);
+								hitObjects.push(obstacleList[i]);
+								
 							}
 					}
 			}
@@ -153,8 +161,19 @@
 						break;
 				}
 			}
-			return hitList;
+			return {hits: hitList,objects: hitObjects};
 		}
+		
+		public function getChildrenOf(target):Array
+		{
+		   var children:Array = [];
+
+		   for (var i:uint = 0; i < target.numChildren; i++)
+				children.push(target.getChildAt(i));
+			  
+			  
+		   return children;
+		}		
 		
 		public function testHit(a,b:Point){
 			
