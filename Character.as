@@ -2,6 +2,7 @@
 	
 	import flash.display.MovieClip;
 	import CarterCollisionKit;
+	import Assets.Environment.*;
 	import Game.C;
 	
 	public class Character extends MovieClip {
@@ -60,6 +61,7 @@
 		var jumpDirection;
 			//Jump Horizontal Speed
 		var jumpXSpeed = runSpeed*.85;
+		var terminalVelocity = 20;
 		
 		private var collisions;
 		private var collisionObjects;
@@ -71,6 +73,8 @@
 		
 		public function move(){
 			updateCollisions();
+			checkEnvironment();
+			
 			if(running)
 			{
 				onGround();
@@ -78,7 +82,7 @@
 			if(jumping){
 				
 				jump();
-					//jumpMoveX();
+				jumpMoveX();
 				
 			}
 			if(currentJumpCooldown > 0)
@@ -193,9 +197,11 @@
 						break;
 				}
 			}
+			
+			
+			
+			//If you aren't jumping and you aren't above any ground, fall
 			if(!cMB && !jumping){
-				fall();
-				fall();
 				fall();
 			}
 			
@@ -203,25 +209,25 @@
 		}
 		public function onGround(){
 			if(right ){
-				run("right");
+				run("right",runSpeed);
 			}
 			if(left){
-				run("left");
+				run("left",runSpeed);
 			}
 			if(up){
-				run("up");
+				jump();
 			}
 			if(down){
-				run("down");
+				run("down",runSpeed);
 			}
 		}
 		
 		
-		public function run(input){
+		public function run(input,speed){
 			
 			var count = 0;
 
-			while((count < runSpeed))
+			while((count < speed))
 			{
 				updateCollisions();
 				
@@ -247,15 +253,14 @@
 						{
 							return;
 						}
-						if(!jumping)
-							jump();
+						this.y--;
 						return;
 					case "down":
 						if(cMB || (cBL && !cML) || (cBR && !cMR) || (this.y >= C.STAGE_HEIGHT))
 						{
 							return;
 						}
-						//this.y++;
+						this.y++
 						break;
 						
 				}
@@ -263,8 +268,26 @@
 			}
 				
 		}
+		public function jumpMoveX()
+		{
+			if(right ){
+				run("right",runSpeed);
+			}
+			if(left){
+				run("left",runSpeed);
+			}
+			if(!up && !falling){
+				//Make them jump slower if they are holding the jump button
+				//ADD FUTURE CODE TO ALTER JUMP HEIGHT HERE
+				jump();
+			}
+			if(down){
+				fall();
+			}
+		}
 		function jump():void
 		{
+			
 			if(currentJumpCooldown >0)
 			{
 				return;
@@ -272,6 +295,7 @@
 			//if main isn't already jumping
 			if(!jumping)
 			{
+				running = false;
 				jumpDirection = direction;
 				if(jumpDirection == 0)
 					jumpDirection = -1;
@@ -336,7 +360,11 @@
 				//Going Down
 				if((jumpSpeed >= 0 && jumpSpeed <= jumpSpeedLimit )|| falling)
 				{
-					jumpSpeed *= 1 + jumpSpeedLimit/jumpSpeedDown
+					if(jumpSpeed < terminalVelocity)
+					{
+						jumpSpeed *= 1 + jumpSpeedLimit/jumpSpeedDown
+					}
+					
 					/*if(jumpDirection == 1 && !runJumping){
 					this.gotoAndPlay("rightJumpIdle");
 					}
@@ -374,11 +402,75 @@
 			}
 		}
 		public function fall(){
-			jumping = true;
-			falling = true;
-			jumpSpeed = 1;
+			if(!falling)
+			{
+				jumping = true;
+				falling = true;
+				jumpSpeed = 10;
+			}
 		}
 		
+		public function checkEnvironment()
+		{
+			//Interact with environment objects
+			
+			for(var i:uint=0;i<collisionObjects.length;i++)
+			{
+				onHit(collisionObjects[i],collisions[i]);
+			}
+		}
+		public function onHit(object,point){
+			
+			//xPlatform
+			if(object is xPlatform)
+			{
+				var platform:xPlatform = object;
+				
+				//Carried by platform
+				if(point == "MB")
+				{
+					//X Direction
+					if(platform.getOrientation() == 0 && !left && !right)
+					{
+						if(platform.getDirection() >0)
+						{
+							this.run("right",platform.getSpeed());
+						}
+						else
+						{
+							this.run("left",platform.getSpeed());
+						}
+					}
+					
+					//Y Direction
+					else if(platform.getOrientation() == 1)
+					{
+						if(platform.getDirection() >0)
+						{
+							this.run("down",platform.getSpeed());
+						}
+						else
+						{
+							this.run("up",platform.getSpeed());
+						}
+					}
+				}
+				
+				
+				//Pushed by platform
+				if(point =="ML" || point == "MR")
+				{
+					if(platform.getDirection() > 0)
+					{
+						this.run("right",platform.getSpeed());
+					}
+					else
+					{
+						this.run("left",platform.getSpeed());
+					}
+				}
+			}
+		}
 	}
 	
 }

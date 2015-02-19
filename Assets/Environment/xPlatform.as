@@ -54,6 +54,28 @@
 					break;
 			}
 		}
+		
+		public function getSpeed()
+		{
+			return this.speed;
+		}
+		public function getCurrentCount()
+		{
+			return this.currentCount;
+		}
+		public function getDistance()
+		{
+			return this.distance
+		}
+		public function getDirection()
+		{
+			return this.direction;
+		}
+		public function getOrientation()
+		{
+			return this.orientation;
+		}
+
 	}
 	
 }

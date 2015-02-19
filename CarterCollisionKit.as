@@ -76,7 +76,6 @@
 					for(var ii:uint=0; ii<pointList.length;ii++){
 						var hitTest = testHit(obstacleList[i],pointList[ii]);
 						if(hitTest){
-								trace(subject + " " + obstacleList[i]);
 								hitList.push(ii);
 								hitObjects.push(obstacleList[i]);
 								

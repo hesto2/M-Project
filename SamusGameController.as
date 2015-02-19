@@ -60,7 +60,10 @@ package
 			/********************
 			  Handle User Input
 			********************/
-			
+			for(var i:int = 0;i<environmentArray.length;i++)
+			{
+				environmentArray[i].move();
+			}
 			for(var i:int = 0;i<playerArray.length;i++)
 			{
 				playerArray[i].move();
@@ -68,10 +71,7 @@ package
 			/********************
 			 Handle Game Logic
 			********************/
-			for(var i:int = 0;i<environmentArray.length;i++)
-			{
-				environmentArray[i].move();
-			}
+			
 			
 			
 			
@@ -97,6 +97,14 @@ package
 				trace("debugging");
 				
 			}
+			else if (key == "]")
+			{
+				player1.runSpeed = 1;
+			}
+			else if (key == "p")
+			{
+				player1.runSpeed = 12;
+			}
 			
 			player1.onKeyDown(key);
 		
@@ -113,8 +121,8 @@ package
 		private function initializeEnvironment(){
 			environmentArray = new Array();
 			
-			var platform1 = new xPlatform(0,30,1,0);
-			platform1.y -= 100;
+			var platform1 = new xPlatform(10,30,1,0);
+			platform1.y -= 0;
 			mcBackground.addChild(platform1);
 			
 			environmentArray.push(platform1);
@@ -124,7 +132,7 @@ package
 			playerArray = new Array();
 			player1 = new Character();
 			player1.x = player1.width;
-			player1.y = C.STAGE_HEIGHT - (2*player1.height);
+			player1.y = C.STAGE_HEIGHT - (6*player1.height);
 			mcGameStage.addChild(player1);
 			
 			playerArray.push(player1);
