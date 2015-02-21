@@ -18,16 +18,16 @@
 		public var down:Boolean;
 		public var left:Boolean;
 		public var right:Boolean;
-		public var btnJump:Boolean;
 		public var btnShoot:Boolean;
+		public var btnAttack:Boolean;
 		
 		//Key Configuration
 		public var keyLeft = "a";
 		public var keyRight = "d";
 		public var keyUp = "w";
 		public var keyDown = "s";
-		public var keyJump = ",";
 		public var keyShoot = ".";
+		public var keyAttack = ".";
 		public var cRight = Boolean;
 		public var cLeft = Boolean;
 		public var cUp = Boolean;
@@ -47,32 +47,32 @@
 		protected var jumpCooldown = 2;
 		protected var currentJumpCooldown = 0;
 		//States
-		private var running:Boolean = true;
-		private var jumping:Boolean;
-		private var falling:Boolean;
-		var runJumping:Boolean = false;
+		protected var running:Boolean = true;
+		protected var jumping:Boolean;
+		protected var falling:Boolean;
+		protected var runJumping:Boolean = false;
 			//Higher number means the jump goes from start to finish quicker
-		var jumpSpeedLimit:int = 30 //Default: 30
+		protected var jumpSpeedLimit:int = 30 //Default: 30
 			//Higher number means the jump reaches higher
-		var jumpHeight = 120; //Default: 120
+		protected var jumpHeight = 120; //Default: 120
 			//Higher number means jump goes up slower
-		var jumpSpeedUp = 10; //Default: 10
+		protected var jumpSpeedUp = 10; //Default: 10
 			//Higher number means jump falls slower
-		var jumpSpeedDown = 65 ; //Default: 65		
+		protected var jumpSpeedDown = 65 ; //Default: 65		
 			//the current speed of the jump
-		var jumpSpeed:Number = jumpSpeedLimit;
+		protected var jumpSpeed:Number = jumpSpeedLimit;
 			//1 = right & -1 = left
-		var jumpDirection;
+		protected var jumpDirection;
 			//Jump Horizontal Speed
-		var jumpXSpeed = runSpeed*.85;
-		var terminalVelocity = 20;
+		protected var jumpXSpeed = runSpeed*.85;
+		protected var terminalVelocity = 20;
 		
 		private var collisions;
 		private var collisionObjects;
 		public var collisionCheck = new CarterCollisionKit();
 		
 		public function Character() {
-			
+			initialAnimate();
 		}
 		
 		public function move(){
@@ -80,7 +80,9 @@
 			checkEnvironment();
 			if(running)
 			{
+				runAnimate();
 				onGround();
+				
 			}
 			if(jumping){
 				
@@ -120,8 +122,8 @@
 				case keyDown:
 					down = true;
 					break;
-				case keyJump:
-					btnJump = true;
+				case keyAttack:
+					btnAttack = true;
 					break;
 				case keyShoot:
 					btnShoot = true;
@@ -148,8 +150,8 @@
 				case keyDown:
 					down = false;
 					break;
-				case keyJump:
-					btnJump = false;
+				case keyAttack:
+					btnAttack = false;
 					break;
 				case keyShoot:
 					btnShoot = false;
@@ -289,7 +291,8 @@
 				fall();
 			}
 		}
-		function jump():void
+		
+		public function jump():void
 		{
 			
 			if(currentJumpCooldown >0)
@@ -299,6 +302,7 @@
 			//if main isn't already jumping
 			if(!jumping)
 			{
+				jumpAnimate();
 				running = false;
 				jumpDirection = direction;
 				if(jumpDirection == 0)
@@ -312,30 +316,7 @@
 					updateCollisions();
 					this.y-=1;
 					i--;
-				}
-				
-				/*
-				//Animation
-				if(runJumping)
-				{
-					if(jumpDirection == 1){
-						this.gotoAndPlay("rightRunJump");
-					}
-					else if(jumpDirection == -1){
-						this.gotoAndPlay("leftRunJump");
-					}
-				}
-				else
-				{
-					if(jumpDirection == 1){
-						this.gotoAndPlay("rightJump");
-					}
-					else if(jumpDirection == -1){
-						this.gotoAndPlay("leftJump");
-					}
-				}*/
-				
-				
+				}			
 			} 
 			else 
 			{
@@ -344,7 +325,7 @@
 				//Going Up
 				if(jumpSpeed < 0)
 				{
-					
+					jumpAnimate();
 					jumpSpeed *= 1 - jumpSpeedLimit/jumpHeight
 					if(jumpSpeed > -jumpSpeedLimit/jumpSpeedUp)
 					{
@@ -364,17 +345,12 @@
 				//Going Down
 				if((jumpSpeed >= 0 && jumpSpeed <= jumpSpeedLimit )|| falling)
 				{
+					fallAnimate();
 					if(jumpSpeed < terminalVelocity)
 					{
 						jumpSpeed *= 1 + jumpSpeedLimit/jumpSpeedDown
 					}
 					
-					/*if(jumpDirection == 1 && !runJumping){
-					this.gotoAndPlay("rightJumpIdle");
-					}
-					else if(jumpDirection == -1 && !runJumping){
-					this.gotoAndPlay("leftJumpIdle");
-					}*/
 					var jCount = 0;
 					while(!cMB && ( jCount < jumpSpeed))
 					{
@@ -382,20 +358,13 @@
 						this.y += 1;
 						jCount++;
 					}
-					
 				}
 
 				
 				//if main hits the floor, then stop jumping
 				if(cMB)
-					{
-						/*
-						if(jumpDirection == 1){
-							this.gotoAndPlay("rightGroundLand");
-						}
-						else if(jumpDirection ==-1){
-							this.gotoAndPlay("leftGroundLand");
-						}*/
+				{
+					landAnimate();
 					currentJumpCooldown = jumpCooldown;
 					jumping = false;
 					falling = false;
@@ -405,6 +374,7 @@
 				}
 			}
 		}
+		
 		public function fall(){
 			if(!falling)
 			{
@@ -475,10 +445,34 @@
 				}
 			}
 		}
+		//THESE FUNCTIONS CALLED BY CHILD CLASS
 		
-		protected function customMove(){
-			//THIS FUNCTION CALLED BY CHILD CLASS
+		protected function initialAnimate()
+		{
+			
 		}
+		protected function customMove()
+		{
+			
+		}
+		protected function runAnimate()
+		{
+			
+		}
+		protected function jumpAnimate()
+		{
+			
+		}
+		protected function fallAnimate()
+		{
+			
+		}
+		protected function landAnimate()
+		{
+			
+		}
+		
 	}
+	
 	
 }

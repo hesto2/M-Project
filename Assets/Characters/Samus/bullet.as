@@ -1,4 +1,4 @@
-﻿package{
+﻿package Assets.Characters.Samus{
 	
 	import flash.display.MovieClip;
 	import flash.events.*;
@@ -16,8 +16,8 @@
 		public var gameStage;
 		public var xDirection;
 		public var yDirection;
-		
-		public function bullet(character:Samus) 
+		public var collisionChecker:CarterCollisionKit = new CarterCollisionKit();
+		public function bullet(character:Assets.Characters.Samus) 
 		{
 			xStart = character.x ;
 			yStart = character.y;
