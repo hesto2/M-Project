@@ -7,6 +7,10 @@
 	
 	public class Character extends MovieClip {
 		
+		//Stats
+		public var health = 100;
+		
+		
 		public var runSpeed = 12;
 		//Keys Down/Up
 		public var direction = 1;
@@ -74,7 +78,6 @@
 		public function move(){
 			updateCollisions();
 			checkEnvironment();
-			
 			if(running)
 			{
 				onGround();
@@ -89,6 +92,7 @@
 			{
 				currentJumpCooldown--;
 			}
+			customMove();
 		}
 		
 		
@@ -470,6 +474,10 @@
 					}
 				}
 			}
+		}
+		
+		protected function customMove(){
+			//THIS FUNCTION CALLED BY CHILD CLASS
 		}
 	}
 	
