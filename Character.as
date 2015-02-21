@@ -27,21 +27,21 @@
 		public var keyUp = "w";
 		public var keyDown = "s";
 		public var keyShoot = ".";
-		public var keyAttack = ".";
+		public var keyAttack = ",";
 		public var cRight = Boolean;
 		public var cLeft = Boolean;
 		public var cUp = Boolean;
 		public var cDown = Boolean;
 		
 		//Collisions
-		private var cBR:Boolean;
-		private var cTR:Boolean;
-		private var cTL:Boolean;
-		private var cBL:Boolean;
-		private var cMT:Boolean;
-		private var cMR:Boolean;
-		private var cML:Boolean;
-		private var cMB:Boolean;
+		public var cBR:Boolean;
+		public var cTR:Boolean;
+		public var cTL:Boolean;
+		public var cBL:Boolean;
+		public var cMT:Boolean;
+		public var cMR:Boolean;
+		public var cML:Boolean;
+		public var cMB:Boolean;
 		
 		//Cooldown
 		protected var jumpCooldown = 2;
@@ -67,8 +67,8 @@
 		protected var jumpXSpeed = runSpeed*.85;
 		protected var terminalVelocity = 20;
 		
-		private var collisions;
-		private var collisionObjects;
+		public var collisions;
+		public var collisionObjects;
 		public var collisionCheck = new CarterCollisionKit();
 		
 		public function Character() {
@@ -78,6 +78,7 @@
 		public function move(){
 			updateCollisions();
 			checkEnvironment();
+			customMove();
 			if(running)
 			{
 				runAnimate();
@@ -94,7 +95,7 @@
 			{
 				currentJumpCooldown--;
 			}
-			customMove();
+			
 		}
 		
 		
@@ -302,9 +303,13 @@
 			//if main isn't already jumping
 			if(!jumping)
 			{
-				jumpAnimate();
+				if(right||left)
+				{
+					runJumping = true;
+				}
 				running = false;
 				jumpDirection = direction;
+				jumpAnimate();
 				if(jumpDirection == 0)
 					jumpDirection = -1;
 				//then start jumping
@@ -380,7 +385,8 @@
 			{
 				jumping = true;
 				falling = true;
-				jumpSpeed = 10;
+				jumpDirection = direction;
+				jumpSpeed =5;
 			}
 		}
 		

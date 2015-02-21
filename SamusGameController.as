@@ -6,7 +6,9 @@ package
 	import flash.geom.*;
 	import flash.text.*;
 	import Game.*;
-	import Assets.Environment.*
+	import Assets.Environment.*;
+	import Assets.Characters.*;
+	import Assets.Characters.c_Samus.Samus;
 	
 	
 	public class SamusGameController extends MovieClip
@@ -130,7 +132,7 @@ package
 		}
 		private function initializePlayers(){
 			playerArray = new Array();
-			player1 = new Character();
+			player1 = new Assets.Characters.c_Samus.Samus();
 			player1.x = player1.width;
 			player1.y = C.STAGE_HEIGHT - (6*player1.height);
 			mcGameStage.addChild(player1);

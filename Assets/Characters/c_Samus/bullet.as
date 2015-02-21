@@ -1,11 +1,10 @@
-﻿package{
+﻿package Assets.Characters.c_Samus{
 	
 	import flash.display.MovieClip;
 	import flash.events.*;
 	import flash.geom.*;
 	import flash.text.*;
 	import Game.*;
-	import Assets.Characters.c_Samus.Samus;
 	
 	public class bullet extends MovieClip{
 		
@@ -17,8 +16,8 @@
 		public var gameStage;
 		public var xDirection;
 		public var yDirection;
-		
-		public function bullet(character) 
+		public var collisionChecker:CarterCollisionKit = new CarterCollisionKit();
+		public function bullet(character:Assets.Characters.Samus) 
 		{
 			xStart = character.x ;
 			yStart = character.y;
