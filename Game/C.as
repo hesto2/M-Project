@@ -9,5 +9,6 @@
 		public static var LEVEL;
 		public static var STAGE;
 		public static var PLAYERS;
+		public static var DEBUG = false;
 	}
 }

@@ -52,7 +52,7 @@ package
 		{
 			trace("RESTARTING GAME");
 			mcGameStage.removeChild(player1);
-		
+			
 			startGame();
 			
 		}
@@ -101,12 +101,15 @@ package
 			}
 			else if (key == "]")
 			{
-				player1.runSpeed = 1;
+				if(C.DEBUG)
+				{
+					C.DEBUG = false;
+				}
+				else{
+					C.DEBUG = true;
+				}
 			}
-			else if (key == "p")
-			{
-				player1.runSpeed = 12;
-			}
+			
 			
 			player1.onKeyDown(key);
 		
@@ -133,6 +136,7 @@ package
 		private function initializePlayers(){
 			playerArray = new Array();
 			player1 = new Assets.Characters.c_Samus.Samus();
+			//player1 = new Character();
 			player1.x = player1.width;
 			player1.y = C.STAGE_HEIGHT - (6*player1.height);
 			mcGameStage.addChild(player1);

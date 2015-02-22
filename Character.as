@@ -42,7 +42,7 @@
 		public var cMR:Boolean;
 		public var cML:Boolean;
 		public var cMB:Boolean;
-		
+		public var debug = C.DEBUG;
 		//Cooldown
 		protected var jumpCooldown = 2;
 		protected var currentJumpCooldown = 0;
@@ -69,7 +69,7 @@
 		
 		public var collisions;
 		public var collisionObjects;
-		public var collisionCheck = new CarterCollisionKit();
+		var collisionCheck = new CarterCollisionKit();
 		
 		public function Character() {
 			initialAnimate();
@@ -172,37 +172,39 @@
 			cML = false;
 			cMB = false;
 			cMR = false;
-			collisions = collisionCheck.checkCollision(this,C.LEVEL,true);
+			collisions = collisionCheck.checkCollision(this,C.LEVEL);
 			collisionObjects = collisions.objects;
-			collisions = collisions.hits;
-			for(var i:uint=0;i<collisions.length;i++){
-				switch(collisions[i])
-				{
-					case "BR":
-						cBR = true;
-						break;
-					case "TR":
-						cTR = true;
-						break;
-					case "BL":
-						cBL = true;
-						break;
-					case "TL":
-						cTL = true;
-						break;
-					case "MT":
-						cMT = true;
-						break;
-					case "ML":
-						cML = true;
-						break;
-					case "MR":
-						cMR = true;
-						break;
-					case "MB":
-						cMB = true;
-						break;
-				}
+			if(collisions.rightHit)
+			{
+				cMR = true;
+			}
+			if(collisions.leftHit)
+			{
+				cML = true;
+			}
+			if(collisions.topHit)
+			{
+				cMT = true;
+			}
+			if(collisions.bottomHit)
+			{
+				cMB = true;
+			}
+			if(collisions.rightHit && collisions.topHit)
+			{
+				cTR = true;
+			}
+			if(collisions.rightHit && collisions.bottomHit)
+			{
+				cBR = true;
+			}
+			if(collisions.leftHit&& collisions.topHit)
+			{
+				cTL = true;
+			}
+			if(collisions.leftHit && collisions.bottomHit)
+			{
+				cBL = true;
 			}
 			
 			
@@ -216,9 +218,11 @@
 		}
 		public function onGround(){
 			if(right ){
+				direction = 1;
 				run("right",runSpeed);
 			}
 			if(left){
+				direction = -1;
 				run("left",runSpeed);
 			}
 			if(up){
@@ -244,7 +248,7 @@
 						{
 							return;
 						}
-						direction = -1;
+						
 						this.x --;
 						break;
 					case "right":
@@ -252,7 +256,7 @@
 						{
 							return;
 						}
-						direction = 1;
+						
 						this.x ++;
 						break;
 					case "up":
@@ -393,21 +397,21 @@
 		public function checkEnvironment()
 		{
 			//Interact with environment objects
-			
 			for(var i:uint=0;i<collisionObjects.length;i++)
 			{
-				onHit(collisionObjects[i],collisions[i]);
+				onHit(collisionObjects[i]);
 			}
+			
 		}
-		public function onHit(object,point){
+		public function onHit(object:collisionObject){
 			
 			//xPlatform
-			if(object is xPlatform)
+			if(object.dObject is xPlatform)
 			{
-				var platform:xPlatform = object;
+				var platform:xPlatform = object.dObject;
 				
 				//Carried by platform
-				if(point == "MB")
+				if(object.bottomHit)
 				{
 					//X Direction
 					if(platform.getOrientation() == 0 && !left && !right)
@@ -438,7 +442,7 @@
 				
 				
 				//Pushed by platform
-				if(point =="ML" || point == "MR")
+				if(object.leftHit || object.rightHit)
 				{
 					if(platform.getDirection() > 0)
 					{

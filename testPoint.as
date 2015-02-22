@@ -6,7 +6,7 @@
 	public class testPoint extends MovieClip {
 		
 		public function testPoint(){
-			
+
 		}
 		public function setLocation(location:Point) {
 			this.x = location.x;
