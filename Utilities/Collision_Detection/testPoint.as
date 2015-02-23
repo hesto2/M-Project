@@ -1,4 +1,4 @@
-﻿package  {
+﻿package Utilities.Collision_Detection {
 	
 	import flash.display.MovieClip;
 	import flash.geom.Point;

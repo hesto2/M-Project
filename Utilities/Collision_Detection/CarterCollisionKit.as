@@ -1,7 +1,7 @@
 ﻿package Utilities.Collision_Detection {
 	import flash.display.MovieClip;
 	import flash.geom.*;
-	import testPoint;
+	import Utilities.Collision_Detection.*;
 	import Game.C;
 
 	public class CarterCollisionKit {
