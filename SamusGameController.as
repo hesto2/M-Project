@@ -6,14 +6,14 @@ package
 	import flash.geom.*;
 	import flash.text.*;
 	import Game.*;
-	import Assets.Environment.*;
 	import Assets.Characters.*;
-	import Assets.Characters.c_Samus.Samus;
+	import Assets.Characters.c_Samus.*;
+	import Assets.Environment.*;
 	
 	
 	public class SamusGameController extends MovieClip
 	{
-		public var player1:Character;
+		public var player1;
 		public var level;
 		private var environmentArray:Array;
 		private var playerArray:Array;
@@ -135,7 +135,7 @@ package
 		}
 		private function initializePlayers(){
 			playerArray = new Array();
-			player1 = new Assets.Characters.c_Samus.Samus();
+			player1 = new Samus();
 			//player1 = new Character();
 			player1.x = player1.width;
 			player1.y = C.STAGE_HEIGHT - (6*player1.height);

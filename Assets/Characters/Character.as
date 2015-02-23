@@ -1,7 +1,7 @@
-﻿package  {
+﻿package  Assets.Characters {
 	
 	import flash.display.MovieClip;
-	import CarterCollisionKit;
+	import Utilities.Collision_Detection.*;
 	import Assets.Environment.*;
 	import Game.C;
 	

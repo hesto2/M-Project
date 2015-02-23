@@ -1,4 +1,4 @@
-﻿package  {
+﻿package Utilities.Collision_Detection  {
 	
 	public class collisionObject {
 

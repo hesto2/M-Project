@@ -6,10 +6,11 @@
 	import flash.geom.*;
 	import flash.text.*;
 	import Game.C;
+	import Assets.Characters.Character;
 	
 
 	
-	public class Samus extends Character {
+	public class Samus extends Assets.Characters.Character {
 		
 		
 		public function Samus() {
@@ -18,7 +19,7 @@
 		}	
 		//Player Info
 		public var playerName = "hesto2";
-		var newBullet:bullet;
+		var newBullet;
 		var bulletArray:Array;
 					
 			//Morph Ball
@@ -92,7 +93,7 @@
 				{
 					bulletArray = new Array();
 				}
-				newBullet = new bullet(this);
+				newBullet = new Assets.Characters.c_Samus.bullet(this);
 				//stage.addChild(newBullet);
 				currentShootWait = 1;
 				bulletArray.push(newBullet);
