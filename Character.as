@@ -44,28 +44,28 @@
 		public var cMB:Boolean;
 		public var debug = C.DEBUG;
 		//Cooldown
-		protected var jumpCooldown = 2;
-		protected var currentJumpCooldown = 0;
+		public var jumpCooldown = 2;
+		public var currentJumpCooldown = 0;
 		//States
-		protected var running:Boolean = true;
-		protected var jumping:Boolean;
-		protected var falling:Boolean;
-		protected var runJumping:Boolean = false;
+		public var running:Boolean = true;
+		public var jumping:Boolean;
+		public var falling:Boolean;
+		public var runJumping:Boolean = false;
 			//Higher number means the jump goes from start to finish quicker
-		protected var jumpSpeedLimit:int = 30 //Default: 30
+		public var jumpSpeedLimit:int = 30 //Default: 30
 			//Higher number means the jump reaches higher
-		protected var jumpHeight = 120; //Default: 120
+		public var jumpHeight = 120; //Default: 120
 			//Higher number means jump goes up slower
-		protected var jumpSpeedUp = 10; //Default: 10
+		public var jumpSpeedUp = 10; //Default: 10
 			//Higher number means jump falls slower
-		protected var jumpSpeedDown = 65 ; //Default: 65		
+		public var jumpSpeedDown = 65 ; //Default: 65		
 			//the current speed of the jump
-		protected var jumpSpeed:Number = jumpSpeedLimit;
+		public var jumpSpeed:Number = jumpSpeedLimit;
 			//1 = right & -1 = left
-		protected var jumpDirection;
+		public var jumpDirection;
 			//Jump Horizontal Speed
-		protected var jumpXSpeed = runSpeed*.85;
-		protected var terminalVelocity = 20;
+		public var jumpXSpeed = runSpeed*.85;
+		public var terminalVelocity = 20;
 		
 		public var collisions;
 		public var collisionObjects;
@@ -482,6 +482,12 @@
 			
 		}
 		
+		//Getters and setters
+		public function isJumping()
+		{
+			return this.jumping;
+		}
+
 	}
 	
 	

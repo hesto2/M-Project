@@ -4,7 +4,7 @@
 	import flash.events.*;
 	import flash.geom.*;
 	import flash.text.*;
-	import Game.*;
+	import Game.C;
 	import Assets.Characters.c_Samus.Samus;
 	
 	public class bullet extends MovieClip{
@@ -17,19 +17,33 @@
 		public var gameStage;
 		public var xDirection;
 		public var yDirection;
+		public var inactive = false;
 		
-		public function bullet(character) 
+		public function bullet(character:Character) 
 		{
-			xStart = character.x ;
-			yStart = character.y;
+			
+			//Start point for bullet
+			if(character.direction == -1)
+			{
+				xStart = character.x ;
+			}
+			else
+			{
+				xStart = character.x + character.width;
+			}
+			yStart = character.y - .5*character.height;
 			xDirection = character.direction;
-			if((character.down) && (character.jumping))
+			
+			C.STAGE.addChild(this);
+			
+			//Travel direction
+			if((character.down) && (character.isJumping()))
 			{
 				yDirection = 1;
 				xDirection = 0;
 			}
 			
-			else if(character.jumping)
+			else if(character.isJumping())
 			{
 				xDirection = character.jumpDirection;
 				
@@ -78,8 +92,14 @@
 			
 			this.x += bulletSpeed * xDirection;
 			this.y += bulletSpeed * yDirection;
+			
+//COLLISION DETECTION GOES HERE
 			if(((this.x > C.STAGE_WIDTH) || (this.x < 0)) || ((this.y > C.STAGE_HEIGHT) || (this.y < 0)))
 			{
+				inactive = true;
+				if(!inactive){
+					C.STAGE.removeChild(this);
+				}
 				trace("bullet removed");
 				return false;
 			}

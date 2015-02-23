@@ -51,8 +51,16 @@
 		private var hitObjects:Array;
 		private var pointOrder:Array = new Array("BL","BR","TR","TL","MT","ML","MB","MR");
 		
-		public function CarterCollisionKit() 
+		public function CarterCollisionKit(xDense = null, yDense = null) 
 		{
+			if(xDense != null)
+			{
+				xDensity = xDense
+			}
+			if(yDense != null)
+			{
+				yDensity = yDense
+			}
 			//Generate Arrays to hold testPoints
 			for(var i:uint=0;i<yDensity;i++)
 			{

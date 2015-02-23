@@ -6,6 +6,7 @@
 	import flash.geom.*;
 	import flash.text.*;
 	import Game.C;
+	
 
 	
 	public class Samus extends Character {
@@ -18,17 +19,16 @@
 		//Player Info
 		public var playerName = "hesto2";
 		var newBullet:bullet;
-
+		var bulletArray:Array;
 					
 			//Morph Ball
 		var ball = false;
 		var ballSpeed = 15;
 		var baseSpeed = 12;
 			//Shooting
-		var currentBullet = false;
-		var shootCooldown = 15;
+		var shootCooldown = 0;
 		var currentShootWait = 0;
-		
+		var bulletCount:int = 0;
 		
 		////////////
 		//Movement//
@@ -39,6 +39,13 @@
 		override protected function customMove()
 		{
 			//bulletShot();
+			if(!ball)
+			{
+				if(btnShoot)
+				{
+					shoot();
+				}
+			}
 			if(running && down && !ball)
 			{
 				morphToBall();
@@ -47,6 +54,11 @@
 			{
 				moveBall();
 			}
+			if(bulletCount>0)
+			{
+				handleBullets();
+			}
+		
 			
 			
 		}
@@ -68,33 +80,43 @@
 			}			
 		}
 		
-	/*
+	
 	//Shoot Function
 		public function shoot()
 		{
-			if(currentShootWait < 0)
-			{
+			trace("Count" + bulletCount);
+			trace("Heat" + currentShootWait);
+			if(currentShootWait <= 0)
+			{	
+				if(bulletCount == 0)
+				{
+					bulletArray = new Array();
+				}
 				newBullet = new bullet(this);
-				stage.addChild(newBullet);
-				currentBullet = true;
+				//stage.addChild(newBullet);
 				currentShootWait = 1;
+				bulletArray.push(newBullet);
+				bulletCount++;
 			}
 		}
-		public function bulletShot()
+		
+		public function handleBullets()
 		{
-			if(currentBullet)
-			{
-				if(newBullet.moveBullet())
+			for(var i:uint=0;i<bulletArray.length;i++)
 				{
-					newBullet.moveBullet();
+					if(bulletArray[i].inactive)
+					{
+						continue;
+					}
+					var moving = bulletArray[i].moveBullet()
+					if(!moving)
+					{
+						bulletArray[i] == null;
+						bulletCount--;
+					}
+					
 				}
-				else
-				{
-					stage.removeChild(newBullet);
-					currentBullet = false;
-				}
-			}
-			
+				
 			if((currentShootWait > 0) && (currentShootWait < shootCooldown))
 			{
 				currentShootWait++;
@@ -103,8 +125,13 @@
 			{
 				currentShootWait = -1;
 			}
+			
+			if(bulletCount == 0)
+			{
+				bulletArray = null;
+			}
 		}
-		*/
+		
 		private function moveBall()
 		{
 			
@@ -246,11 +273,40 @@
 			{
 				this.gotoAndPlay("leftJump");
 			}
+			//Shooting in Air Animations
+			if(!runJumping || btnShoot)
+			{
+				if(up && !down && btnShoot)
+				{
+					if(jumpDirection == 1)
+					{
+						this.gotoAndPlay("rightJumpShootUp");
+					}
+					else
+					{
+						this.gotoAndPlay("leftJumpShootUp");
+					}	
+				}
+				
+				else if (btnShoot)
+				{
+					if(jumpDirection == 1)
+					{
+						this.gotoAndPlay("rightJumpShoot");
+					}
+					else
+					{
+						this.gotoAndPlay("leftJumpShoot");
+					}
+				}
+			}
+				
+			
 			
 		}
 		override protected  function fallAnimate()
 		{
-			if(!ball && !runJumping)
+			if(!ball && !runJumping || btnShoot)
 			{
 				if(jumpDirection == 1){
 						this.gotoAndPlay("rightJumpIdle");
@@ -258,6 +314,28 @@
 				else if(jumpDirection == -1)
 				{
 					this.gotoAndPlay("leftJumpIdle");
+				}
+				if(down)
+				{
+					if(jumpDirection == 1)
+					{
+						this.gotoAndPlay("rightShootDown");
+					}
+					else
+					{
+						this.gotoAndPlay("leftShootDown");
+					}
+				}
+				if(up && !down && btnShoot)
+				{
+					if(jumpDirection == 1)
+					{
+						this.gotoAndPlay("rightJumpShootUp");
+					}
+					else
+					{
+						this.gotoAndPlay("leftJumpShootUp");
+					}	
 				}
 			}
 		}
