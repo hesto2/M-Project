@@ -90,13 +90,16 @@ package
 			/********************
 			 Handle Game Logic
 			********************/
-			
+			//checkPlayerStatus();
 			
 			
 			
 			/*****************
 			  Handle Display
 			*****************/
+			
+			updateDisplayBoxes();
+			
 			
 		}
 		
@@ -106,6 +109,7 @@ package
 			var key = String.fromCharCode(event.charCode);
 			//Reset Function
 			key = key.toLowerCase();
+			
 			if(key == 'r')
 			{
 				resetGame();
@@ -116,6 +120,8 @@ package
 				trace("debugging");
 				
 			}
+			
+			
 			else if (key == "]")
 			{
 				if(C.DEBUG)
@@ -152,7 +158,7 @@ package
 		}
 		private function initializePlayers(){
 			playerArray = new Array();
-			player1 = new Samus();
+			player1 = new Samus("Player1");
 			//player1 = new Character();
 			player1.x = player1.width;
 			player1.y = C.STAGE_HEIGHT - (6*player1.height);
@@ -160,7 +166,7 @@ package
 			
 			playerArray.push(player1);
 			
-			player2 = new Samus();
+			player2 = new Samus("Player2");
 			//player1 = new Character();
 			player2.x = C.STAGE_WIDTH - 450;
 			player2.y = C.STAGE_HEIGHT - (6*player2.height);
@@ -178,7 +184,23 @@ package
 			  
 			  
 		   return children;
-		}		
+		}	
+		public function checkPlayerStatus()
+		{
+			for(var i=0;i<playerArray.length;i++)
+			{
+				var player = playerArray[i];
+				if(player.currentHealth <=0)
+				{
+					player.dieAnimate();
+				}
+			}
+		}
+		public function updateDisplayBoxes()
+		{
+			p1Status.text = playerArray[0].currentHealth;
+			p2Status.text = playerArray[1].currentHealth;
+		}
 	}
 }
 	

@@ -3,13 +3,15 @@
 	import flash.display.MovieClip;
 	import Utilities.Collision_Detection.*;
 	import Assets.Environment.*;
+	import Assets.Characters.c_Samus.bullet;
 	import Game.C;
 	
 	public class Character extends MovieClip {
 		
+		public var playerName;
 		//Stats
 		public var health = 100;
-		
+		public var currentHealth = 100;
 		
 		public var runSpeed = 12;
 		//Keys Down/Up
@@ -71,11 +73,21 @@
 		public var collisionObjects;
 		var collisionCheck = new CarterCollisionKit();
 		
+		//Damage States
+		public var vulnerable = true;
+		public var recoveryTime = 10;
+		public var recoveryCount = 0;
+		public var dead= false;
+		
+		
 		public function Character() {
 			initialAnimate();
 		}
 		
 		public function move(){
+			if(dead){
+				return;
+			}
 			updateCollisions();
 			checkEnvironment();
 			customMove();
@@ -95,7 +107,27 @@
 			{
 				currentJumpCooldown--;
 			}
-			
+			if(!vulnerable)
+			{
+				if(recoveryCount == 0)
+				{
+					vulnerable = true;
+					if(!this.visible){this.visible = true};
+				}
+				else
+				{
+					recoveryCount--;
+					invulnerableAnimate();
+				}
+			}
+			//Add status check function
+			if(this.currentHealth <=0 && !dead)
+				{
+					this.visible=true;
+					this.dead = true;
+					this.dieAnimate();
+				}
+				
 		}
 		
 		
@@ -455,6 +487,20 @@
 				}
 			}
 		}
+		
+		public function takeHit(sender)
+		{
+			if(sender is bullet && this.vulnerable)
+			{
+				var pBullet:bullet = sender;
+				this.currentHealth -= pBullet.power;
+				trace(this.playerName + " hit by bullet from " +pBullet.owner.playerName);
+				vulnerable = false;
+				recoveryCount = recoveryTime;
+				onHitAnimate();
+			}
+			
+		}
 		//THESE FUNCTIONS CALLED BY CHILD CLASS
 		
 		protected function initialAnimate()
@@ -481,7 +527,28 @@
 		{
 			
 		}
-		
+		protected function dieAnimate()
+		{
+			
+		}
+		protected function enterAnimate()
+		{
+			
+		}
+		protected function victoryAnimate()
+		{
+			
+		}
+		protected function onHitAnimate()
+		{
+			
+		}
+		protected function invulnerableAnimate()
+		{
+			//Blink to indicate invulnerable state
+			if(this.visible){this.visible = false}
+			else{this.visible this.visible= true};
+		}
 		//Getters and setters
 		public function isJumping()
 		{

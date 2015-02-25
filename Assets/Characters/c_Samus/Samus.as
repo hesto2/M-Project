@@ -13,12 +13,11 @@
 	public class Samus extends Assets.Characters.Character {
 		
 		
-		public function Samus() {
+		public function Samus(playerName) {
 			// constructor code
-			
+			this.playerName = playerName;
 		}	
 		//Player Info
-		public var playerName;
 		var newBullet;
 		var bulletArray:Array;
 					
@@ -349,6 +348,21 @@
 				}
 				else if(jumpDirection ==-1){
 					this.gotoAndPlay("leftGroundLand");
+				}
+			}
+		}
+		override protected function dieAnimate()
+		{
+			if(direction ==1)
+			{
+				if(this.currentLabel != "dieRight"){
+					this.gotoAndPlay("dieRight");
+				}
+			}
+			else
+			{
+				if(this.currentLabel != "dieLeft"){
+					this.gotoAndPlay("dieLeft");
 				}
 			}
 		}

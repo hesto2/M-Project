@@ -13,8 +13,8 @@
 		public var xStart;
 		public var yStart;
 		public var owner;
-		public var bulletSpeed;
-		public var bulletPower;
+		public var bulletSpeed = 20;
+		public var power = 50;
 		public var gameStage;
 		public var xDirection;
 		public var yDirection;
@@ -84,8 +84,6 @@
 				yDirection = 0;
 			}
 			owner = character;
-			bulletSpeed = 20;
-			bulletPower = 5;
 			this.x = xStart;
 			this.y = yStart;
 			this.gotoAndPlay("samusBullet");
@@ -95,7 +93,6 @@
 		public function moveBullet():Boolean
 		{
 			
-			trace(this.y+ " " + C.STAGE_HEIGHT);
 			var count = 0;
 			while(count < bulletSpeed &&!colliding)
 			{
@@ -132,7 +129,10 @@
 				if(object.dObject is Assets.Characters.Character && object.dObject != owner)
 				{
 					trace("Character Found");
-					hitCharacter(object);
+					if(object.dObject.vulnerable)
+					{
+						hitCharacter(object.dObject);
+					}
 				}
 			}
 			
@@ -153,6 +153,7 @@
 		private function hitCharacter(character)
 		{
 			colliding = true;
+			character.takeHit(this);
 			
 		}
 		
