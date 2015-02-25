@@ -18,7 +18,7 @@
 			
 		}	
 		//Player Info
-		public var playerName = "hesto2";
+		public var playerName;
 		var newBullet;
 		var bulletArray:Array;
 					
@@ -27,7 +27,7 @@
 		var ballSpeed = 15;
 		var baseSpeed = 12;
 			//Shooting
-		var shootCooldown = 0;
+		var shootCooldown = 7;
 		var currentShootWait = 0;
 		var bulletCount:int = 0;
 		

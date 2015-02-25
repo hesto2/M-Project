@@ -14,6 +14,7 @@ package
 	public class SamusGameController extends MovieClip
 	{
 		public var player1;
+		public var player2;
 		public var level;
 		private var environmentArray:Array;
 		private var playerArray:Array;
@@ -47,6 +48,22 @@ package
 			trace("Stage Height: " + mcGameStage.height);
 			trace("Stage Width: " + mcGameStage.width);
 			trace(mcGameStage.getType);
+			//Print out all objects on stage
+			var obstacleList = getChildrenOf(C.STAGE)
+			for(var i:uint=0; i<obstacleList.length;i++)
+			{
+				trace("Stage Obstacle " + i +": " + obstacleList[i]);
+				if(obstacleList[i] is Assets.Characters.Character)
+				{
+					trace("CHARACTER FOUND");
+				}
+			}
+			obstacleList = getChildrenOf(C.LEVEL)
+			for(var i:uint=0; i<obstacleList.length;i++)
+			{
+				trace("Level Obstacle " + i +": " + obstacleList[i]);
+
+			}
 		}	
 		public function resetGame()
 		{
@@ -143,8 +160,25 @@ package
 			
 			playerArray.push(player1);
 			
+			player2 = new Samus();
+			//player1 = new Character();
+			player2.x = C.STAGE_WIDTH - 450;
+			player2.y = C.STAGE_HEIGHT - (6*player2.height);
+			mcGameStage.addChild(player2);
+			
+			playerArray.push(player2);
+			
 		}
-		
+		public function getChildrenOf(target):Array
+		{
+		   var children:Array = [];
+
+		   for (var i:uint = 0; i < target.numChildren; i++)
+				children.push(target.getChildAt(i));
+			  
+			  
+		   return children;
+		}		
 	}
 }
 	
