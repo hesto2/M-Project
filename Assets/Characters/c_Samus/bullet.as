@@ -14,7 +14,7 @@
 		public var yStart;
 		public var owner;
 		public var bulletSpeed = 20;
-		public var power = 50;
+		public var power = 7;
 		public var gameStage;
 		public var xDirection;
 		public var yDirection;
@@ -159,6 +159,7 @@
 		
 		public function removeBullet()
 		{
+			owner.bulletCount -=1;
 			C.STAGE.removeChild(this);
 		}
 		

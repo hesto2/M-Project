@@ -12,7 +12,7 @@
 		private var distance:int;
 
 		
-		public function xPlatform(speed:int, distance:int,startDirection:int,orientation:int) {
+		public function xPlatform(speed:int=0, distance:int=0,startDirection:int=0,orientation:int=0) {
 			// constructor code
 			this.speed = speed;
 			this.distance = distance;
@@ -74,6 +74,27 @@
 		public function getOrientation()
 		{
 			return this.orientation;
+		}
+		
+		public function setSpeed(val:int)
+		{
+			this.speed = val;
+		}
+		public function setCurrentCount(val:int)
+		{
+			this.currentCount= val;
+		}
+		public function setDistance(val:int)
+		{
+			this.distance = val;
+		}
+		public function setDirection(val:int)
+		{
+			this.direction = val;
+		}
+		public function setOrientation(val:int)
+		{
+			this.orientation = val;
 		}
 
 	}

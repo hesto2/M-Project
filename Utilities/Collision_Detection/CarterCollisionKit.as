@@ -217,15 +217,15 @@
 					subject.parent.addChild(leftSidePoints[i]);
 				}
 			}
-			
+			//Make Horizontal Points
 			for(var i:uint=0;i<xDensity;i++)
 			{
-				var tX = xPos+5+((oWidth-5)/xDensity)*i;
+				var tX = xPos+8+((oWidth-10)/xDensity)*i;
 				var tY = yPos-oHeight;
 				var tPoint = new Point(tX,tY)
 				topSide[i] = tPoint;
 							
-				var bX = xPos+5+((oWidth-5)/xDensity)*i;
+				var bX = xPos+8+((oWidth-10)/xDensity)*i;
 				var bY = yPos;
 				var bPoint = new Point(bX,bY)
 				bottomSide[i] = bPoint;

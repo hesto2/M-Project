@@ -19,8 +19,8 @@
 		}	
 		//Player Info
 		var newBullet;
-		var bulletArray:Array;
-					
+		var bulletArray:Array = new Array();
+		var totalShots = 0;
 			//Morph Ball
 		var ball = false;
 		var ballSpeed = 15;
@@ -38,6 +38,7 @@
 	//Function that is called every frame
 		override protected function customMove()
 		{
+			
 			//bulletShot();
 			if(!ball)
 			{
@@ -54,7 +55,7 @@
 			{
 				moveBall();
 			}
-			if(bulletCount>0)
+			if(bulletCount>0 || currentShootWait > 0)
 			{
 				handleBullets();
 			}
@@ -84,10 +85,10 @@
 	//Shoot Function
 		public function shoot()
 		{
-			trace("Count" + bulletCount);
-			trace("Heat" + currentShootWait);
+
 			if(currentShootWait <= 0)
 			{	
+				totalShots++;
 				if(bulletCount == 0)
 				{
 					bulletArray = new Array();

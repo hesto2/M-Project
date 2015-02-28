@@ -28,7 +28,7 @@
 		public var keyRight = "d";
 		public var keyUp = "w";
 		public var keyDown = "s";
-		public var keyShoot = ".";
+		public var keyShoot = "v";
 		public var keyAttack = ",";
 		public var cRight = Boolean;
 		public var cLeft = Boolean;
@@ -407,6 +407,7 @@
 				{
 					landAnimate();
 					currentJumpCooldown = jumpCooldown;
+					jumpSpeed=0;
 					jumping = false;
 					falling = false;
 					running = true;
@@ -422,7 +423,7 @@
 				jumping = true;
 				falling = true;
 				jumpDirection = direction;
-				jumpSpeed =5;
+				jumpSpeed =4.5;
 			}
 		}
 		
