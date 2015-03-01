@@ -164,6 +164,7 @@
 		
 		public function removeBullet()
 		{
+			owner = null;
 			inactive = true;
 			C.STAGE.removeChild(this);
 		}
