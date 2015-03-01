@@ -67,10 +67,10 @@
 				rightSidePoints[i] = new testPoint();
 				leftSidePoints[i] = new testPoint();
 			}
-			for(var i:uint=0;i<xDensity;i++)
+			for(var ii:uint=0;i<xDensity;i++)
 			{
-				topSidePoints[i] = new testPoint();
-				bottomSidePoints[i] = new testPoint();
+				topSidePoints[ii] = new testPoint();
+				bottomSidePoints[ii] = new testPoint();
 			}
 		}
 

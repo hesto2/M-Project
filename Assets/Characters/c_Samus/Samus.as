@@ -7,6 +7,7 @@
 	import flash.text.*;
 	import Game.C;
 	import Assets.Characters.Character;
+	import Assets.Characters.c_samus.ballBomb;
 	
 
 	
@@ -20,6 +21,8 @@
 		//Player Info
 		var newBullet;
 		var bulletArray:Array = new Array();
+		var bombArray:Array = new Array();
+		var bombCount:int = 0;
 		var totalShots = 0;
 			//Morph Ball
 		var ball = false;
@@ -28,7 +31,10 @@
 			//Shooting
 		var shootCooldown = 7;
 		var currentShootWait = 0;
-		var bulletCount:int = 0;
+		
+		//bombing
+		var bombCooldown = 10;
+		var currentBombWait = 0;
 		
 		////////////
 		//Movement//
@@ -54,11 +60,11 @@
 			if(ball)
 			{
 				moveBall();
+				
 			}
-			if(bulletCount>0 || currentShootWait > 0)
-			{
-				handleBullets();
-			}
+			
+			handleBullets();
+
 		
 			
 			
@@ -89,20 +95,20 @@
 			if(currentShootWait <= 0)
 			{	
 				totalShots++;
-				if(bulletCount == 0)
-				{
-					bulletArray = new Array();
-				}
+				//If max number of bullets have already been created and added to array then move the first inactive bullet
 				newBullet = new Assets.Characters.c_Samus.bullet(this);
-				//stage.addChild(newBullet);
-				currentShootWait = 1;
+				
 				bulletArray.push(newBullet);
+				
+				currentShootWait = 1;
+				
 				bulletCount++;
 			}
 		}
 		
 		public function handleBullets()
 		{
+			//Handle Bullets
 			for(var i:uint=0;i<bulletArray.length;i++)
 				{
 					if(bulletArray[i].inactive)
@@ -117,7 +123,19 @@
 					}
 					
 				}
-				
+			//Handle Bombs
+			for(var i:uint=0;i<bombArray.length;i++)
+				{
+					if(bombArray[i].inactive)
+					{
+						bombArray.splice(i,1);
+						i--;
+						continue;
+					}
+					var moving = bombArray[i].moveBullet()
+					
+					
+				}
 			if((currentShootWait > 0) && (currentShootWait < shootCooldown))
 			{
 				currentShootWait++;
@@ -127,15 +145,30 @@
 				currentShootWait = -1;
 			}
 			
+			if((currentBombWait > 0) && (currentBombWait < bombCooldown))
+			{
+				currentBombWait++;
+			}
+			else
+			{
+				currentBombWait = -1;
+			}
+			
 			if(bulletCount == 0)
 			{
-				bulletArray = null;
+				bulletArray = new Array();
+			}
+			if(bombCount == 0){
+				bombArray = new Array();
 			}
 		}
 		
 		private function moveBall()
 		{
-			
+			if(bombCount > 0)
+			{
+				
+			}
 			
 			if(up)
 			{
@@ -151,7 +184,20 @@
 				}
 				ball = false;
 			}
+			if(btnShoot){
+					dropBomb();
+			}
 			
+		}
+		
+		private function dropBomb(){
+			if(currentBombWait < 1 && bombArray.length <= 2)
+			{
+				currentBombWait = 1;
+				var newBomb = new ballBomb(this);
+				bombCount++;
+				bombArray.push(newBomb);				
+			}
 		}
 	//Animations
 		override protected function initialAnimate()

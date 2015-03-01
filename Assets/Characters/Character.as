@@ -46,6 +46,7 @@
 		public var cMB:Boolean;
 		public var debug = C.DEBUG;
 		//Cooldown
+		public var bulletCount = 0;
 		public var jumpCooldown = 2;
 		public var currentJumpCooldown = 0;
 		//States
@@ -491,11 +492,11 @@
 		
 		public function takeHit(sender)
 		{
-			if(sender is bullet && this.vulnerable)
+			if(sender is projectile && this.vulnerable)
 			{
-				var pBullet:bullet = sender;
+				var pBullet:projectile = sender;
 				this.currentHealth -= pBullet.power;
-				trace(this.playerName + " hit by bullet from " +pBullet.owner.playerName);
+				trace(this.playerName + " hit by projectile from " +pBullet.owner.playerName);
 				vulnerable = false;
 				recoveryCount = recoveryTime;
 				onHitAnimate();

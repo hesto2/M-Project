@@ -72,6 +72,10 @@ package
 			trace("RESTARTING GAME");
 			mcGameStage.removeChild(player1);
 			mcGameStage.removeChild(player2);
+			while(C.LEVEL.numChildren >0)
+			{
+				C.LEVEL.removeChildAt(0);
+			}
 			
 			startGame();
 			
@@ -212,6 +216,7 @@ package
 			player2.keyUp = "aup";
 			player2.keyDown = "adown";
 			player2.keyShoot = ".";
+			player2.direction = -1;
 			
 			
 			player2.x = C.STAGE_WIDTH - 250;
