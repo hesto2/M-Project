@@ -46,7 +46,7 @@
 		public var cMB:Boolean;
 		public var debug = C.DEBUG;
 		//Cooldown
-		public var bulletCount = 0;
+		
 		public var jumpCooldown = 2;
 		public var currentJumpCooldown = 0;
 		//States

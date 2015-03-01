@@ -19,6 +19,7 @@
 			this.playerName = playerName;
 		}	
 		//Player Info
+		public var bulletCount = 0;
 		var newBullet;
 		var bulletArray:Array = new Array();
 		var bombArray:Array = new Array();
@@ -113,6 +114,8 @@
 				{
 					if(bulletArray[i].inactive)
 					{
+						bulletArray.splice(i,1);
+						i--;
 						continue;
 					}
 					var moving = bulletArray[i].moveBullet()
@@ -154,13 +157,6 @@
 				currentBombWait = -1;
 			}
 			
-			if(bulletCount == 0)
-			{
-				bulletArray = new Array();
-			}
-			if(bombCount == 0){
-				bombArray = new Array();
-			}
 		}
 		
 		private function moveBall()
